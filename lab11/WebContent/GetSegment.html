@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="ISO-8859-1">
+    <title>Get Segment</title>
+    <style>
+     body {font-family: Arial;}
+     tr, td, th {border: solid black 1px; padding: 10px;}
+     th {background-color: #8888FF; color: white;}    
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>      
+      function getSegment()
+      {
+        // clear table first, leaving the first row,
+        // which is the heading row
+        $("#segmentlist").find("tr:gt(0)").remove();
+        $("#msg").text("");
+        
+        var segmentNumber = $("#segnum").val();
+
+		$.ajax({
+		    url: "rest/segment/" + segmentNumber,
+		    type: 'GET',
+		    dataType: 'json',
+		    contentType: 'application/json',
+		    success: function(ret)
+		    {
+		        console.log("Data: " + ret);
+		        displaySegment(ret);
+		    },
+		    error: function(error, textStatus, errorThrown)
+		    {
+		    	$("#msg").text(errorThrown);
+		    }
+		});
+		
+		return false;
+      }
+      
+      function displaySegment(segment)
+      {
+	   $("#segmentlist").append("<tr>" +
+	      "<td>" + segment.segmentNumber +"</td>" +
+	      "<td>" + segment.flightNumber + "</td>" +
+	      "<td>" + segment.originatingCity + "</td>" +
+	      "<td>" + segment.segmentDate + "</td>" +
+	      "<td>" + segment.miles + "</td>" +
+	      "</tr>");			      
+      }
+      
+      $(document).ready(function()
+      {
+      });      
+      
+    </script>    
+  </head>
+  <body>
+    <h1>GetSegment</h1>
+    <form onsubmit="getSegment(); return false;">
+      <div>
+        <label for="segnum">Segment number:</label>
+        <input type="number" id="segnum"  required>
+      </div>
+      <button id="getseg">Get Segment</button>
+    </form>
+    <table id="segmentlist">
+      <tr>
+        <th>Segment Number</th>
+        <th>Flight Number</th>
+        <th>Originating City</th>
+        <th>Segment Date</th>
+        <th>Miles</th>
+      </tr>
+    </table>
+    <p id="msg"></p>
+  </body>
+</html>

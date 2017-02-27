@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="ISO-8859-1">
+    <title>Add Segment</title>
+    <style>
+     form label
+     {
+       clear: left;
+       float: left;
+       width: 12em;
+       text-align: right;
+       margin-right: 5px;
+       font-weight: normal;
+     }
+     form input
+     {
+       width: 8em;
+     }     
+     form dv
+     {
+        clear: both;
+     }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>      
+      function addSegment()
+      {
+		var segment = new Object();
+		segment.segmentNumber = 0;
+		segment.flightNumber = $("#flightNum").val();
+		segment.originatingCity = $("#origCity").val();
+		segment.miles = $("#miles").val();
+		segment.segmentDate = $("#segDate").val();
+
+		$.ajax({
+		    url: "rest/segment",
+		    type: 'POST',
+		    dataType: 'json',
+		    data: JSON.stringify(segment),
+		    contentType: 'application/json',
+		    success: function(ret)
+		    {
+		        console.log("Data: " + ret);
+		    	$("#msg").text("Segment added successfully, segment number: " + ret.segmentNumber);		        
+		    },
+		    error: function(error, textStatus, errorThrown)
+		    {
+		    	$("#msg").text(errorThrown);
+		    }
+		});
+		
+		return false;
+      }
+      
+    </script>    
+  </head>
+  <body>
+    <h1>Add Segment</h1>
+    <form onsubmit="addSegment(); return false;">
+      <div>
+        <label for="flightNum">Flight number:</label>
+        <input type="number" id="flightNum" required>
+      </div>
+      <div>
+        <label for="origCity">Originating city (3 characters):</label>
+        <input type="text" id="origCity" pattern=".{3,3}" required>
+      </div>
+      <div>
+        <label for="segDate">Date:</label>
+        <input type="date" id="segDate">
+      </div>
+      <div>
+        <label for="miles">Miles:</label>
+        <input type="number" id="miles">
+      </div>
+      <button id="getseg">Add Segment</button>
+    </form>
+    <p id="msg"></p>
+  </body>
+</html>

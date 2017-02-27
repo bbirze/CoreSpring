@@ -1,0 +1,8 @@
+<Context path="/lab09" docBase="lab09" debug="0">
+  <Resource name="jdbc/flier" 
+           auth="Container"
+           type="javax.sql.DataSource"
+           username="sa" password="sa"
+           driverClassName="org.h2.Driver"
+           url="jdbc:h2:tcp://localhost/~/lab09"/>
+</Context>

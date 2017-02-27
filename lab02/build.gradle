@@ -1,0 +1,17 @@
+repositories {
+    maven {
+       mavenCentral()
+        url 'https://repo.spring.io/libs-release'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile 'org.springframework:spring-context:4.2.6.RELEASE'
+    runtime 'log4j:log4j:1.2.17'
+}
